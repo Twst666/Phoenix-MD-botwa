@@ -4,7 +4,7 @@ const clt = require("../lib/Collection");
 const { owner } = require("../config.json");
 const chalk = require("chalk");
 
-const prefix = '!'
+const prefix = '.'
 const multi_prefix = new RegExp("^[" + "!#$%&?/;:,.<>~-+=".replace(/[|\\{}()[\]^$+*?.\-\^]/g, "\\$&") + "]");
 
 let now = moment();
