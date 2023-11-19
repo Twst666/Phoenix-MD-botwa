@@ -2,9 +2,16 @@ const { calculatePing } = require("../../utils");
 
 module.exports = {
     name: "ping",
-    category: "misc",
-    desc: "Bot response.",
-    async exec({ msg }) {
-        await msg.reply(`*${calculatePing(msg.messageTimestamp, Date.now())} _second(s)_*`);
+    category: "main",
+    desc: "Check Bot Response Speed",
+    async exec({ message, reply }) {
+        const pingMsg = await reply('*📡Checking Ping...*');
+        const timestamp = Date.now();
+
+
+        setTimeout(async () => {
+            const latency = calculatePing(timestamp, Date.now()).toFixed(4);
+            await pingMsg.edit(`*📡Pong!* ${latency} ms`);
+        }, 1000);
     }
-}
+};
