@@ -33,7 +33,7 @@ module.exports = {
                     category[info.category].push(info);
                 }
             }
-            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} i am ${botName}\n*This is My Command List*\n\n`;
+            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} I Am ${botName}\n*This Is My Command List*\n\n`;
             const keys = Object.keys(category);
             for (const key of keys) {
                 data += `*${key.toUpperCase()}*\n${category[key]
@@ -43,7 +43,7 @@ module.exports = {
                     )
                     .join("\n")}\n\n`;
             }
-            data += `send ${prefix}help with command name for command details.\nex. ${prefix}help sticker`;
+            data += `Send ${prefix}help With Command Name For Command Details.\nex. ${prefix}help ping`;
             await client.sendMessage(msg.from, { text: data });
         }
     },
