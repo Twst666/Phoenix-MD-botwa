@@ -26,7 +26,7 @@ function readCommands() {
       spinner: "star"
     });
 
-    spinner.start(color("[INFO]", "yellow") + "Loading commands...");
+    spinner.start(color("[Phoenix]", "yellow") + "Loading Commands...");
 
     let $rootDir = path(__dirname, "./commands");
     let dir = fs.readdirSync($rootDir);
@@ -39,7 +39,7 @@ function readCommands() {
         }
     });
           if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Command Loaded");
+            spinner.succeed(color("[Phoenix]", "yellow") + "Command Loaded");
           }
 }
 readCommands();
@@ -62,10 +62,10 @@ async function start() {
     if (connection === "close") {
 			let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
 			if (reason === DisconnectReason.badSession) {
-				console.log(`Bad Session File, Please Delete ${session} and Scan Again`);
+				console.log(`Bad Session File, Please Delete ${session} And Add New Session.``);
 				client.logout();
 			} else if (reason === DisconnectReason.connectionClosed) {
-				console.log("Connection closed, reconnecting....");
+				console.log("Connection Closed, Reconnecting....");
 				start();
 			} else if (reason === DisconnectReason.connectionLost) {
 				console.log("Connection Lost from Server, reconnecting...");
@@ -74,7 +74,7 @@ async function start() {
 				console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
 				client.logout();
 			} else if (reason === DisconnectReason.loggedOut) {
-				console.log(`Device Logged Out, Please Delete ${session} and Scan Again.`);
+				console.log(`Device Logged Out, Please Delete ${session} And Add New Session.`);
 				client.logout();
 			} else if (reason === DisconnectReason.restartRequired) {
 				console.log("Restart Required, Restarting...");
@@ -86,10 +86,10 @@ async function start() {
 				client.end(`Unknown DisconnectReason: ${reason}|${lastDisconnect.error}`);
 			}
 		} else if (connection === 'open') {
-      spinner.start(color("[INFO]", "yellow") + "Open connection");
+      spinner.start(color("[Phoenix]", "greeb") + "Connected Successfully✅");
       
       if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Connection status: " + connection);
+            spinner.succeed(color("[Phoenix]", "yellow") + "Connection status: " + connection);
           }
     }
   });
