@@ -33,7 +33,7 @@ module.exports = {
                     category[info.category].push(info);
                 }
             }
-            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} i am ${botName}\n*This is My Command List*\n\n`;
+            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} i am ${global.botname}\n*This is My Command List*\n\n`;
             const keys = Object.keys(category);
             for (const key of keys) {
                 data += `*${key.toUpperCase()}*\n${category[key]
