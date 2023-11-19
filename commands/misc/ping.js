@@ -5,7 +5,7 @@ module.exports = {
     category: "main",
     desc: "Check Bot Response Speed",
     async exec({ message, reply }) {
-        const pingMsg = await reply('*📡Checking Ping...*');
+        const pingMsg = await msg.reply('*📡Checking Ping...*');
         const timestamp = Date.now();
 
 
