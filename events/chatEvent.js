@@ -61,7 +61,7 @@ module.exports = chatEvent = async (m, client) => {
         if (!cmd) return;
         
         if (cmd.owner && !isOwner) {
-			return await msg.reply("You are not my owner");
+			return await msg.reply("This Command Can Only Be Used By The *Creator Of The Bot*");
 		}
 
 
