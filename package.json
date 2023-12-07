@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
-    "@whiskeysockets/baileys": "^6.2.1",
+    "@whiskeysockets/baileys": "^6.3.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
