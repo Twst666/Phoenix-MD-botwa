@@ -29,7 +29,7 @@ function readCommands() {
       spinner: "star"
     });
 
-    spinner.start(color("[INFO]", "yellow") + "Loading commands...");
+    spinner.start(color("[INFO]", "yellow") + "⬇️Installing Plugins");
 
     let $rootDir = path(__dirname, "./commands");
     let dir = fs.readdirSync($rootDir);
@@ -42,7 +42,7 @@ function readCommands() {
         }
     });
           if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Command Loaded");
+            spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
           }
 }
 readCommands();
@@ -94,7 +94,7 @@ await fs.writeFileSync("./lib/session/creds.json", JSON.stringify(data));
 				client.end(`Unknown DisconnectReason: ${reason}|${lastDisconnect.error}`);
 			}
 		} else if (connection === 'open') {
-      spinner.start(color("[INFO]", "yellow") + "Open connection");
+      spinner.start(color("[INFO]", "yellow") + "Connected Successfully✅");
       
       if (spinner.isSpinning) {
             spinner.succeed(color("[INFO]", "yellow") + "Connection status: " + connection);
