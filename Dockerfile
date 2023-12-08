@@ -15,4 +15,4 @@ RUN apt-get update && \
 RUN npm install
 
 
-CMD ["npm", "start"]
+CMD ["node", "."]
