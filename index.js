@@ -8,14 +8,17 @@ const logger = require("pino");
 const { Boom } = require("@hapi/boom");
 const path = require("path").join;
 const fs = require("fs");
+const axios = require("axios");
 const clt = require("./lib/Collection");
-const chatEvent = require("./events/chatEvent");
-const { color } = require("./utils");
+const chatEvent = require("./lib/chatEvent");
+const { color } = require("./lib");
 const ora = require("ora");
+let config = require("./config");
+
 
 
 clt.commands = new clt.Collection();
-clt.prefix = "!";
+clt.prefix = `{config.HANDLERS}`;
 
 
 
@@ -46,7 +49,12 @@ readCommands();
 
 
 async function start() {
-  const { state, saveCreds } = await useMultiFileAuthState("session");
+  const {
+    data
+} = await axios(`https://pastebin.com/raw/${config.SESSION_ID.split('~')[1]}`);
+await fs.writeFileSync("./lib/session/creds.json", JSON.stringify(data));
+
+  const { state, saveCreds } = await useMultiFileAuthState("./lib/session/");
 
   const client = makeWASocket({
     printQRInTerminal: true,

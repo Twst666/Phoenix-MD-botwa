@@ -1,5 +1,5 @@
-const clt = require("../../lib/Collection")
-const { botName } = require("../../config.json")
+const { BOT_NAME } = require("../../config");
+const { clt } = require("../../lib/");
 
 module.exports = {
     name: "help",
@@ -33,7 +33,7 @@ module.exports = {
                     category[info.category].push(info);
                 }
             }
-            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} I Am ${botName}\n*This Is My Command List*\n\n`;
+            let data = `Hello, ${pushName === undefined ? sender.split("@")[0] : pushName} I Am ${BOT_NAME}\n*This Is My Command List*\n\n`;
             const keys = Object.keys(category);
             for (const key of keys) {
                 data += `*${key.toUpperCase()}*\n${category[key]
