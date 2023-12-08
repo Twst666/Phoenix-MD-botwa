@@ -41,10 +41,12 @@ function readCommands() {
             clt.commands.set(command.name, command);
         }
     });
-          if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
-          }
+
+    if (spinner.isSpinning) {
+        spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
+    }
 }
+
 readCommands();
 
 
