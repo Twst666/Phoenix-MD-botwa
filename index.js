@@ -23,38 +23,30 @@ clt.prefix = `{config.HANDLERS}`;
 
 
 // read commands
-async function readCommands() {
+function readCommands() {
     const spinner = ora({
-        color: "green",
-        spinner: "star"
+      color: "green",
+      spinner: "star"
     });
 
-    spinner.start(color("[INFO]", "yellow") + "⬇️ Installing Plugins");
+    spinner.start(color("[INFO]", "yellow") + "⬇️Installing Plugins");
 
-    try {
-        let $rootDir = path(__dirname, "./commands");
-        let dir = fs.readdirSync($rootDir);
+    let $rootDir = path(__dirname, "./commands");
+    let dir = fs.readdirSync($rootDir);
 
-        for (let $dir of dir) {
-            const commandFiles = fs.readdirSync(path($rootDir, $dir)).filter((file) => file.endsWith(".js"));
-            for (let file of commandFiles) {
-                const command = require(path($rootDir, $dir, file));
-                clt.commands.set(command.name, command);
-            }
+    dir.forEach(($dir) => {
+        const commandFiles = fs.readdirSync(path($rootDir, $dir)).filter((file) => file.endsWith(".js"));
+        for (let file of commandFiles) {
+            const command = require(path($rootDir, $dir, file));
+            clt.commands.set(command.name, command);
         }
-
-        if (spinner.isSpinning) {
+    });
+          if (spinner.isSpinning) {
             spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
-        }
-    } catch (error) {
-        console.error("Error installing plugins:", error);
-        if (spinner.isSpinning) {
-            spinner.fail(color("[ERROR]", "red") + "Failed to install plugins");
-        }
-    }
+          }
 }
-
 readCommands();
+
 
 async function start() {
   const {
