@@ -3,7 +3,7 @@ module.exports = {
 	alias: ["ev", "e"],
 	category: "owner",
 	owner: true,
-        group: true,
+        groupCommand: true,
 
 	async exec({ msg, args, client }) {
 		let code = args.join(" ");
