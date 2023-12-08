@@ -1,4 +1,4 @@
-const { writeExifImg, writeExifVid } = require('../../utils/exif');
+const { writeExifImg, writeExifVid } = require('../../lib/');
 
 module.exports = {
     name: 'sticker',

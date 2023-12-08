@@ -1,4 +1,4 @@
-const { calculatePing } = require("../../utils");
+const { calculatePing } = require("../../lib/");
 
 module.exports = {
     name: "ping",
