@@ -23,24 +23,24 @@ clt.prefix = `{config.HANDLERS}`;
 
 
 // read commands
-function readCommands() {
+async function readCommands() {
     const spinner = ora({
-      color: "green",
-      spinner: "star"
+        color: "green",
+        spinner: "star"
     });
 
-    spinner.start(color("[INFO]", "yellow") + "⬇️Installing Plugins");
+    spinner.start(color("[INFO]", "yellow") + "⬇️ Installing Plugins");
 
     let $rootDir = path(__dirname, "./commands");
     let dir = fs.readdirSync($rootDir);
 
-    dir.forEach(($dir) => {
+    await Promise.all(dir.map(async ($dir) => {
         const commandFiles = fs.readdirSync(path($rootDir, $dir)).filter((file) => file.endsWith(".js"));
         for (let file of commandFiles) {
             const command = require(path($rootDir, $dir, file));
             clt.commands.set(command.name, command);
         }
-    });
+    }));
 
     if (spinner.isSpinning) {
         spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
@@ -48,7 +48,6 @@ function readCommands() {
 }
 
 readCommands();
-
 
 async function start() {
   const {
