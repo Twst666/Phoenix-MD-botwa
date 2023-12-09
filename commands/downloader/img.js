@@ -20,7 +20,7 @@ module.exports = {
   desc: "Get Google Images",
   async exec({ message, match }) {
     if (!match)
-      return await message.sendMessage(
+      return await client.sendMessage(
         "_Enter A Text And Number Of Images You Want_\n_📌 Example:_ *Phoenix MD,6*"
       );
 
@@ -32,7 +32,7 @@ module.exports = {
     );
 
     for (let imageUrl of result) {
-      await message.sendFromUrl(imageUrl);
+      await client.sendFromUrl(imageUrl);
     }
   },
 };
