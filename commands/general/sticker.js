@@ -1,5 +1,12 @@
 const { writeExifImg, writeExifVid } = require('../../lib/');
-const { STICKER_DATA } = require('../../config');
+const { STICKER_DATA } = require('../config');
+
+async function downloadMedia(message) {
+    if (message.type === "imageMessage" || message.type === "videoMessage") {
+        return await message.download();
+    }
+    throw new Error("Unsupported media type for download");
+}
 
 module.exports = {
     name: 'sticker',
@@ -25,18 +32,10 @@ module.exports = {
             const packnameStr = packname.toString();
             const authorStr = author.toString();
 
-            if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                buffer = await (isQImg ? quoted.download() : msg.download());
-                stickerBuff = await writeExifImg(buffer, { packname: packnameStr, author: authorStr });
-            } else if ((isMedia && msg.message.videoMessage.fileLength < 2 << 20) || (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)) {
-                buffer = await (isQVid ? quoted.download() : msg.download());
-                stickerBuff = await writeExifVid(buffer, { packname: packnameStr, author: authorStr });
-            } else if (isQDoc && (/image/.test(quoted.message.documentMessage.mimetype) || (/video/.test(quoted.message.documentMessage.mimetype) && quoted.message.documentMessage.fileLength < 2 << 20))) {
-                buffer = await quoted.download();
-                const stickerBuffVid = await writeExifVid(buffer, { packname: packnameStr, author: authorStr });
-                const stickerBuffImg = await writeExifImg(buffer, { packname: packnameStr, author: authorStr });
-                stickerBuff = stickerBuffVid || stickerBuffImg;
-            }
+            buffer = await (isQImg ? downloadMedia(quoted) : msg.download());
+
+            stickerBuff = await (isQImg ? writeExifImg(buffer, { packname: packnameStr, author: authorStr }) :
+                                           writeExifVid(buffer, { packname: packnameStr, author: authorStr }));
 
             if (buffer && stickerBuff) {
                 await client.sendMessage(from, { sticker: { url: `${stickerBuff}` } }, { quoted: msg });
