@@ -18,7 +18,7 @@ module.exports = {
   name: "gimage",
   category: "main",
   desc: "Get Google Images",
-  async exec({ message, match }) {
+  async exec({ client, match }) {
     if (!match)
       return await client.sendMessage(
         "_Enter A Text And Number Of Images You Want_\n_📌 Example:_ *Phoenix MD,6*"
