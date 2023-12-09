@@ -1,5 +1,5 @@
 const { writeExifImg, writeExifVid } = require('../../lib/');
-const { STICKER_DATA } = require('../config');
+const { STICKER_DATA } = require('../../config');
 
 module.exports = {
     name: 'sticker',
