@@ -1,9 +1,9 @@
 const { getBuffer } = require("../../lib/");
 
 module.exports = {
-    name: "slot",
-    category: "game",
-    desc: "Play the slot game.",
+    name: "alive",
+    category: "main",
+    desc: "Bot Chatho Illeuo Enn Nokan",
     async exec({ msg }) {
     const image = 'https://i.ibb.co/tHWJrz3/IMG-20231128-WA0005.jpg';
     const thumb = "https://i.ibb.co/tHWJrz3/IMG-20231128-WA0005.jpg";
