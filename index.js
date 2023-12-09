@@ -11,25 +11,19 @@ const fs = require("fs");
 const axios = require("axios");
 const clt = require("./lib/Collection");
 const chatEvent = require("./lib/chatEvent");
-const { color } = require("./lib");
 const ora = require("ora");
 let config = require("./config");
-
-
 
 clt.commands = new clt.Collection();
 clt.prefix = `{config.HANDLERS}`;
 
-
-
 // read commands
 function readCommands() {
     const spinner = ora({
-      color: "green",
       spinner: "star"
     });
 
-    spinner.start(color("[INFO]", "yellow") + "⬇️Installing Plugins");
+    spinner.start("ℹ Connecting To Your WhatsApp");
 
     let $rootDir = path(__dirname, "./commands");
     let dir = fs.readdirSync($rootDir);
@@ -41,12 +35,12 @@ function readCommands() {
             clt.commands.set(command.name, command);
         }
     });
-          if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Plugins Installed✅");
-          }
+    if (spinner.isSpinning) {
+        spinner.succeed("[INFO]Plugins Installed✅");
+    }
 }
-readCommands();
 
+readCommands();
 
 async function start() {
   const {
@@ -64,41 +58,41 @@ await fs.writeFileSync("./lib/session/creds.json", JSON.stringify(data));
   });
 
   client.ev.on("connection.update", (update) => {
-    const spinner = ora({ color: "green", spinner: "star" });
+    const spinner = ora({ spinner: "star" });
 
     const { connection, lastDisconnect } = update;
     if (connection === "close") {
-			let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
-			if (reason === DisconnectReason.badSession) {
-				console.log(`Bad Session File, Please Delete ${session} and Scan Again`);
-				client.logout();
-			} else if (reason === DisconnectReason.connectionClosed) {
-				console.log("Connection closed, reconnecting....");
-				start();
-			} else if (reason === DisconnectReason.connectionLost) {
-				console.log("Connection Lost from Server, reconnecting...");
-				start();
-			} else if (reason === DisconnectReason.connectionReplaced) {
-				console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
-				client.logout();
-			} else if (reason === DisconnectReason.loggedOut) {
-				console.log(`Device Logged Out, Please Delete ${session} and Scan Again.`);
-				client.logout();
-			} else if (reason === DisconnectReason.restartRequired) {
-				console.log("Restart Required, Restarting...");
-				start();
-			} else if (reason === DisconnectReason.timedOut) {
-				console.log("Connection TimedOut, Reconnecting...");
-				start();
-			} else {
-				client.end(`Unknown DisconnectReason: ${reason}|${lastDisconnect.error}`);
-			}
-		} else if (connection === 'open') {
-      spinner.start(color("[INFO]", "yellow") + "Connected Successfully✅");
+      let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
+      if (reason === DisconnectReason.badSession) {
+        console.log(`Bad Session File, Please Delete ${session} and Scan Again`);
+        client.logout();
+      } else if (reason === DisconnectReason.connectionClosed) {
+        console.log("Connection closed, reconnecting....");
+        start();
+      } else if (reason === DisconnectReason.connectionLost) {
+        console.log("Connection Lost from Server, reconnecting...");
+        start();
+      } else if (reason === DisconnectReason.connectionReplaced) {
+        console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
+        client.logout();
+      } else if (reason === DisconnectReason.loggedOut) {
+        console.log(`Device Logged Out, Please Delete ${session} and Scan Again.`);
+        client.logout();
+      } else if (reason === DisconnectReason.restartRequired) {
+        console.log("Restart Required, Restarting...");
+        start();
+      } else if (reason === DisconnectReason.timedOut) {
+        console.log("Connection TimedOut, Reconnecting...");
+        start();
+      } else {
+        client.end(`Unknown DisconnectReason: ${reason}|${lastDisconnect.error}`);
+      }
+    } else if (connection === 'open') {
+      spinner.start("Phoenix-MD Connected Successfully✅");
       
       if (spinner.isSpinning) {
-            spinner.succeed(color("[INFO]", "yellow") + "Connection status: " + connection);
-          }
+        spinner.succeed("[INFO]Connection status: " + connection);
+      }
     }
   });
 
