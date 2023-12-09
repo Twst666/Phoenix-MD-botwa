@@ -1,4 +1,4 @@
-const { slots } = require("../../lib/slots");
+const { slots } = require("../../lib/games");
 
 module.exports = {
     name: "slot",
