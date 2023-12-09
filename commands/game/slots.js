@@ -1,5 +1,4 @@
-const emojis = ["🍒", "🍇", "📍", "💵", "🍭"];
-
+const emojis = ["🕊", "📍", "🍇", "💵", "🍭"];
 module.exports = {
     name: "slot",
     category: "game",
@@ -14,18 +13,18 @@ module.exports = {
 
         const [x, y, z] = spinResult;
 
-        const slotDisplay = `🎰 ┃ *SLOTS* 
-   ───────────
-   ${x} : ${y} : ${z}
-   ───────────
-    🎰┃🎰┃ 🎰`;
+        const slotDisplay = `
+            🎰 ┃ *SLOTS* 
+         ────────────
+         | ${x} | ${y} | ${z} |
+         ────────────
+            🎰┃🎰┃ 🎰
+        `;
 
         const isWinner = spinResult.every((emoji) => emoji === spinResult[0]);
-
         const resultMessage = isWinner
             ? "🎉 *Congratulations!* You Won"
             : " *😔 You Lose* Better Luck Next Time";
-        
-        await msg.reply(`${slotDisplay}\n${resultMessage}`);
+        await msg.reply(`${slotDisplay}\n\n${resultMessage}`);
     }
 }
