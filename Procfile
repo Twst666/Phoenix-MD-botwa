@@ -1,1 +1,1 @@
-Phoenix: node .
+web: node .
