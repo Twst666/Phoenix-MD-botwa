@@ -1,11 +1,11 @@
-const { spinSlot } = require("../../lib/slots");
+const { slots } = require("../../lib/slots");
 
 module.exports = {
     name: "slot",
     category: "game",
     desc: "Play the slot game.",
     async exec({ msg }) {
-        const spinResult = spinSlot();
+        const spinResult = slots();
 
         const [x, y, z] = spinResult;
 
