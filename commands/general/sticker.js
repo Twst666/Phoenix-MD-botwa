@@ -3,7 +3,7 @@ const { STICKER_DATA } = require('../../config');
 
 module.exports = {
     name: 'sticker',
-    alias: ['stiker', 'stikergif', 'stikerg', 'stikerv', 'stikergif', 'stikerg', 's',],
+    alias: ['stiker', 'stikergif', 'stikerg', 'stikerv', 'stikergif', 'stikerg', 's'],
     category: 'general',
     desc: 'Create sticker from image or video',
     use: 'packagename|authorname',
@@ -18,14 +18,7 @@ module.exports = {
         const isQVid = type === "extendedTextMessage" && content.includes("videoMessage");
         const isQDoc = type === "extendedTextMessage" && content.includes("documentMessage");
 
-        await client.sendMessage(msg.from,
-            {
-                react: {
-                    text: "⏳",
-                    key: msg.key,
-                },
-            },
-        );
+        await client.sendMessage(msg.from, { react: { text: "⏳", key: msg.key } });
 
         let buffer, stickerBuff;
         try {
@@ -49,10 +42,12 @@ module.exports = {
                 await client.sendMessage(from, { sticker: { url: `${stickerBuff}` } }, { quoted: msg });
                 await client.sendMessage(msg.from, { react: { text: "✅", key: msg.key } });
             } else {
+                console.error('Error: Buffer or stickerBuff is null or undefined');
                 await msg.reply(`Silahkan kirim/reply gambar/video/dokumen yang ingin di convert ke sticker.\nPastikan ukuran tidak melebihi 2MB dan durasi tidak lebih 10detik.`);
                 await client.sendMessage(msg.from, { react: { text: "❌", key: msg.key } });
             }
         } catch (e) {
+            console.error('Error while creating sticker:', e);
             await msg.reply("Error while creating sticker");
             await client.sendMessage(msg.from, { react: { text: "❌", key: msg.key } });
         }
