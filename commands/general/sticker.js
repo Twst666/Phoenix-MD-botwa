@@ -1,16 +1,9 @@
-const { writeExifImg, writeExifVid } = require('../../lib/');
+const { writeExifImg, writeExifVid } = require('../../lib/exif');
 const { STICKER_DATA } = require('../../config');
-
-async function downloadMedia(message) {
-    if (message.type === "imageMessage" || message.type === "videoMessage") {
-        return await message.download();
-    }
-    throw new Error("Unsupported media type for download");
-}
 
 module.exports = {
     name: 'sticker',
-    alias: ['stiker', 'stikergif', 'stikerg', 'stikerv', 'stikergif', 'stikerg', 's'],
+    alias: ['stiker', 'stikergif', 'stikerg', 'stikerv', 'stikergif', 'stikerg', 's',],
     category: 'general',
     desc: 'Create sticker from image or video',
     use: 'packagename|authorname',
@@ -25,30 +18,43 @@ module.exports = {
         const isQVid = type === "extendedTextMessage" && content.includes("videoMessage");
         const isQDoc = type === "extendedTextMessage" && content.includes("documentMessage");
 
-        await client.sendMessage(msg.from, { react: { text: "⏳", key: msg.key } });
+        await client.sendMessage(msg.from,
+            {
+                react: {
+                    text: "⏳",
+                    key: msg.key,
+                },
+            },
+        );
 
         let buffer, stickerBuff;
         try {
             const packnameStr = packname.toString();
             const authorStr = author.toString();
 
-            buffer = await (isQImg ? downloadMedia(quoted) : msg.download());
-
-            stickerBuff = await (isQImg ? writeExifImg(buffer, { packname: packnameStr, author: authorStr }) :
-                                           writeExifVid(buffer, { packname: packnameStr, author: authorStr }));
+            if ((isMedia && !msg.message.videoMessage) || isQImg) {
+                buffer = await (isQImg ? quoted.download() : msg.download());
+                stickerBuff = await writeExifImg(buffer, { packname: packnameStr, author: authorStr, stickerData: STICKER_DATA });
+            } else if ((isMedia && msg.message.videoMessage.fileLength < 2 << 20) || (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)) {
+                buffer = await (isQVid ? quoted.download() : msg.download());
+                stickerBuff = await writeExifVid(buffer, { packname: packnameStr, author: authorStr, stickerData: STICKER_DATA });
+            } else if (isQDoc && (/image/.test(quoted.message.documentMessage.mimetype) || (/video/.test(quoted.message.documentMessage.mimetype) && quoted.message.documentMessage.fileLength < 2 << 20))) {
+                buffer = await quoted.download();
+                const stickerBuffVid = await writeExifVid(buffer, { packname: packnameStr, author: authorStr, stickerData: STICKER_DATA });
+                const stickerBuffImg = await writeExifImg(buffer, { packname: packnameStr, author: authorStr, stickerData: STICKER_DATA });
+                stickerBuff = stickerBuffVid || stickerBuffImg;
+            }
 
             if (buffer && stickerBuff) {
                 await client.sendMessage(from, { sticker: { url: `${stickerBuff}` } }, { quoted: msg });
                 await client.sendMessage(msg.from, { react: { text: "✅", key: msg.key } });
             } else {
-                console.error('Error: Buffer or stickerBuff is null or undefined');
                 await msg.reply(`Silahkan kirim/reply gambar/video/dokumen yang ingin di convert ke sticker.\nPastikan ukuran tidak melebihi 2MB dan durasi tidak lebih 10detik.`);
                 await client.sendMessage(msg.from, { react: { text: "❌", key: msg.key } });
             }
         } catch (e) {
-            console.error('Error while creating sticker:', e);
             await msg.reply("Error while creating sticker");
             await client.sendMessage(msg.from, { react: { text: "❌", key: msg.key } });
         }
     }
-};
+}
