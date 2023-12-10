@@ -1,7 +1,8 @@
 const axios = require('axios');
 
 module.exports = {
-    name: "(git|repo|sc|script)",
+    name: "git",
+    aliases: ["git", "repo"],
     category: "main",
     desc: "show information about a GitHub repository",
     async exec({ msg, client }) {
