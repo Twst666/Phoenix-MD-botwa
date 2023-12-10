@@ -4,14 +4,15 @@ module.exports = {
   name: "img",
   category: "main",
   desc: "Get Google Images",
-  async exec({ client, match }) {
-    const [query, amount] = match.split(",");
-
-    if (!query) {
+  async exec({ client, args }) {
+    if (!args || args.length < 2) {
       return await client.sendMessage(
         "_Enter A Text And Number Of Images You Want_\n_📌 Example:_ *Phoenix MD,5*"
       );
     }
+
+    const query = args[0];
+    const amount = args[1];
 
     const result = await fg.googleImage(query);
 
