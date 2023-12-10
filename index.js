@@ -25,7 +25,7 @@ function readCommands() {
 
     spinner.start("ℹ Connecting To Your WhatsApp");
 
-    let $rootDir = path(__dirname, "./commands");
+    let $rootDir = path(__dirname, "./plugins");
     let dir = fs.readdirSync($rootDir);
 
     dir.forEach(($dir) => {
