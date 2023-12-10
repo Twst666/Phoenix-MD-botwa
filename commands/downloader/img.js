@@ -14,14 +14,24 @@ module.exports = {
     const query = args[0];
     const amount = args[1];
 
-    const result = await fg.googleImage(query);
+    try {
+      const result = await fg.googleImage(query);
 
-    await client.sendMessage(
-      `_Downloading... *${amount || 5}* Images For *${query}*_`
-    );
+      if (!result || !Array.isArray(result)) {
+        throw new Error("Invalid result from googleImage");
+      }
 
-    for (let imageUrl of result) {
-      await client.sendFromUrl(imageUrl);
+      await client.sendMessage(
+        `_Downloading... *${amount || 5}* Images For *${query}*_`
+      );
+
+      for (let imageUrl of result) {
+        await client.sendFromUrl(imageUrl);
+      }
+    } catch (error) {
+      console.error("Error in img.js:", error);
+      // Handle the error, log it, or send an error message to the client
+      // For example: await client.sendMessage("Error fetching images");
     }
   },
 };
