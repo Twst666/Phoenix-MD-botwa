@@ -2,6 +2,7 @@ const Jimp = require("jimp");
 
 module.exports = {
   name: "updateProfilePicture",
+  alias: "fullpp",
   category: "main",
   desc: "Update user's profile picture",
   async exec({ msg, client }) {
