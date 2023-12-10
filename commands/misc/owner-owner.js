@@ -2,6 +2,7 @@ const { OWNER_NAME, OWNER_NUMBER, BOT_NAME } = require('../../config');
 
 module.exports = {
     name: "owner",
+    aliases: ["test","owner"],
     category: "main",
     desc: "show the bot owner",
     async exec({ msg, client }) {
