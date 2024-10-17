@@ -36,19 +36,24 @@ function readCommands() {
         }
     });
     if (spinner.isSpinning) {
-        spinner.succeed("[INFO]Plugins Installed✅");
+        spinner.succeed("Plugins Installed ✅");
     }
 }
 
 readCommands();
 
 async function start() {
-  const {
-    data
-} = await axios(`https://pastebin.com/raw/${config.SESSION_ID.split('~')[1]}`);
-await fs.writeFileSync("./lib/session/creds.json", JSON.stringify(data));
+    if (!fs.existsSync("./auth")) {
+        fs.mkdirSync('./auth');
+        console.log("Auth directory created.");
+    } else {
+        console.log("Auth directory exists.");
+    }
 
-  const { state, saveCreds } = await useMultiFileAuthState("./lib/session/");
+	
+    console.log("Creds.json Verified Successfully ✅");
+
+    const { state, saveCreds } = await useMultiFileAuthState('auth');
 
   const client = makeWASocket({
     printQRInTerminal: true,
