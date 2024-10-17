@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
-    "@whiskeysockets/baileys": "^6.3.0",
+    "@whiskeysockets/baileys": "github:A-S-W-I-N-S-P-A-R-K-Y/Baileys.js",
     "abhishek-ytube": "^1.0.0",
     "axios": "^0.24.0",
     "file-type": "^16.5.3",
