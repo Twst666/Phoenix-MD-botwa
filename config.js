@@ -3,7 +3,7 @@
 const toBool = (x) => x === 'true';
 
 module.exports = {
-    SESSION_ID: process.env.SESSION_ID || '',
+    SESSION_ID: process.env.SESSION_ID || 'Phoenix~gicocofuxa',
     HANDLERS: process.env.HANDLER || '.',
     BOT_NAME: process.env.BOT_NAME || 'Phoenix-MD',
     OWNER_NAME: process.env.OWNER_NAME || 'Abhishek Suresh',
