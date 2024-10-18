@@ -43,17 +43,33 @@ function readCommands() {
 readCommands();
 
 async function start() {
-    if (!fs.existsSync("./auth")) {
-        fs.mkdirSync('./auth');
-        console.log("Auth directory created.");
-    } else {
-        console.log("Auth directory exists.");
+    const [name, sessionId] = config.SESSION_ID.split("~");
+    
+    // Ensure the name is "Phoenix"
+    if (name !== "Phoenix") {
+        console.log("❌ Modified Version Detected. Use Phoenix-MD Original Version From github.com/AbhishekSuresh2/Phoenix-MD");
+        console.log("Dear User This Is A Copy Version Of Phoenix-MD. Use Phoenix-MD Original Version From https://github.com/AbhishekSuresh2/Phoenix-Bot");
+        console.log("ℹ️😂 Hey Kid Go And Make Your Own Bot Instead Of Renaming Others Bot😂😂😂😂😂😂😂😂");
+        console.log("😂😂This Is A Copied Version!");
+        console.log("ℹ️ My Real Creator Is Abhishek Suresh!");
+        process.exitCode = 1; // Set exit code to indicate failure
+        return;
     }
 
-	
-    console.log("Creds.json Verified Successfully ✅");
+    // Fetch the data from the endpoint using the session ID
+    try {
+        const { data } = await axios.get(`https://abhi-simple-paste.onrender.com/paste/view/${sessionId}`);
+        await fs.writeFileSync("./auth/creds.json", JSON.stringify(data.message));
+    } catch (error) {
+        console.error("Error fetching data from endpoint:", error);
+        return; // Stop execution if fetching fails
+    }
 
-    const { state, saveCreds } = await useMultiFileAuthState('auth');
+    const { state, saveCreds } = await useMultiFileAuthState(
+        "./auth/",
+        pino({ level: "silent" })
+    );
+
 
   const client = makeWASocket({
     printQRInTerminal: true,
