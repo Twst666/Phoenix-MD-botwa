@@ -8,6 +8,7 @@ const logger = require("pino");
 const { Boom } = require("@hapi/boom");
 const path = require("path").join;
 const fs = require("fs");
+const pino = require("pino");
 const axios = require("axios");
 const clt = require("./lib/Collection");
 const chatEvent = require("./lib/chatEvent");
